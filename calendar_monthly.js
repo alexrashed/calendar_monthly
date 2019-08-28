@@ -3,6 +3,9 @@
  *
  * By Ashley M. Kirchner <kirash4@gmail.com>
  * Beer Licensed (meaning, if you like this module, feel free to have a beer on me, or send me one.)
+ *
+ * Modified by A. Rashed
+ * Switched from table header to <header> tag
  */
 
  Module.register("calendar_monthly", {
@@ -64,20 +67,15 @@
 			// Find first day of the month, LOCALE aware
 			var startingDay = moment().date(1).weekday();
 
+                        var outer = document.createElement("span");
 			var wrapper = document.createElement("table");
 			wrapper.className = 'xsmall';
 			wrapper.id = 'calendar-table';
 
 			// Create THEAD section with month name and 4-digit year
-			var header = document.createElement("tHead");
-			var headerTR = document.createElement("tr");
-
+			var header = document.createElement("header");
 			// We only fill in the THEAD section if the .showHeader config is set to true
 			if (this.config.showHeader) {
-				var headerTH = document.createElement("th");
-				headerTH.colSpan = "7";
-				headerTH.scope = "col";
-				headerTH.id = "calendar-th";
 				var headerMonthSpan = document.createElement("span");
 				headerMonthSpan.id = "monthName";
 				headerMonthSpan.innerHTML = monthName;
@@ -88,13 +86,12 @@
 				// This can be used later with the :before or :after options in the CSS
 				var headerSpace = document.createTextNode(" ");
 
-				headerTH.appendChild(headerMonthSpan);
-				headerTH.appendChild(headerSpace);
-				headerTH.appendChild(headerYearSpan);
-				headerTR.appendChild(headerTH);
+				header.appendChild(headerMonthSpan);
+				header.appendChild(headerSpace);
+				header.appendChild(headerYearSpan);
 			}
-			header.appendChild(headerTR);
-			wrapper.appendChild(header);
+			outer.appendChild(header);
+                        outer.appendChild(wrapper);
 
 			// Create TFOOT section -- currently used for debugging only
 			var footer = document.createElement('tFoot');
@@ -190,7 +187,7 @@
 			wrapper.appendChild(bodyContent);
 
 			this.loaded = true;
-			return wrapper;
+			return outer;
 
 		}
 
